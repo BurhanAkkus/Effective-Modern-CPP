@@ -63,7 +63,36 @@ struct Widget3{
         }
 };
 
+vector<int> initializeVectorWithParens(int i,int j){
+    return vector<int>(i,j);
+}
+vector<int> initializeVectorWithBraces(int i,int j){
+    return vector<int>{i,j};
+}
 
+// Only works for T that is a container. Enough for this demo.
+template<typename Container>
+void printContainer(const string& label, const Container& c){
+    cout << label << " size=" << c.size() << " contents: ";
+    for(const auto& element : c){
+        cout << element << " ";
+    }
+    cout << endl;
+}
+
+template<typename T, typename... Ts>
+void doSomeWork1(Ts&&... params)
+{
+    T localObject(std::forward<Ts>(params)...);
+    printContainer("doSomeWork1 parens ->", localObject);
+}
+
+template<typename T, typename... Ts>
+void doSomeWork2(Ts&&... params)
+{
+    T localObject{std::forward<Ts>(params)...};
+    printContainer("doSomeWork2 braces ->", localObject);
+}
 
 int main(){
     // 4 ways to initialize in C++11
@@ -106,5 +135,14 @@ int main(){
 
     Widget3 emptyInitializerList {};
     Widget3 emptyInitializerList2 ({});
-    Widget3 emptyInitializerList3 {{},{},{}}; // passes a initializer_list with each {} being an element. Casts to 0.0
+    Widget3 emptyInitializerList3 {{},{},{}}; // passes a initializer_list with each {} being an element.
+
+    auto object1 = initializeVectorWithParens(5,10);
+    auto object2 = initializeVectorWithBraces(5,10);
+    cout << "Size of object1: " << object1.size() << endl;
+    cout << "Size of object2: " << object2.size() << endl;
+
+
+    doSomeWork1<std::vector<int>>(10, 20);// initialized with parens
+    doSomeWork2<std::vector<int>>(10, 20);// initialized with braces
 }
