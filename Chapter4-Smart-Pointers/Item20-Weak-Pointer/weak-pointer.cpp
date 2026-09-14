@@ -7,9 +7,10 @@ using namespace std;
 class Widget{
     public:
     long id;
+    Widget(long id):id{id}{};
     std::unique_ptr<Widget> loadWidget(long id){
         for(int i = 0; i < 1000000; i++);
-        return make_unique<Widget>(new Widget{id});
+        return make_unique<Widget>(id);
     };
 
     shared_ptr<Widget> fastLoadWidget(long id){
