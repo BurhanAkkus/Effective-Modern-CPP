@@ -39,7 +39,7 @@ int main(){
     processWidget(spwc,computePriority()); // copies spw, slow
     processWidget(move(spwc),computePriority()); // moves spw, fast
 
-    // Can't use make functions with custom deleters.
+    // Can't use make functions with custom del=eters.
     unique_ptr<Widget, decltype(widgetDeleter)> upw(new Widget, widgetDeleter); 
     shared_ptr<Widget> spw(new Widget, widgetDeleter);
  
